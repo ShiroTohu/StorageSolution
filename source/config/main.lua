@@ -1,10 +1,14 @@
-local systemIntegrity = require("systemIntegrity")
+package.path = package.path .. ';./storage/?.lua'
 
-local StorageConfig = {}
+local Storage = require("storage")
 
-function StorageConfig:new()
-    local instance = {
-        
+local Config = {}
+
+function Config:new()
+    local storage = Storage:new()
+
+    local instance = { 
+        storage = storage
     }
 
     setmetatable(instance, self)
@@ -12,4 +16,4 @@ function StorageConfig:new()
     return instance
 end
 
-return storageConfig
+return Config
