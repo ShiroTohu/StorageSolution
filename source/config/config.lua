@@ -1,6 +1,6 @@
-package.path = package.path .. ';./storage/?.lua'
-package.path = package.path .. ';./endpoint/?.lua'
-package.path = package.path .. ';./monitors/?.lua'
+package.path = package.path .. ';./config/storage/?.lua'
+package.path = package.path .. ';./config/endpoint/?.lua'
+package.path = package.path .. ';./config/monitors/?.lua'
 
 local Storage = require("storage")
 local endpoint = require("endpoint")

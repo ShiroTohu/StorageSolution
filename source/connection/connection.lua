@@ -1,4 +1,4 @@
-package.path = package.path .. ';./commands/?.lua'
+package.path = package.path .. ';./connection/commands/?.lua'
 
 local input = require("input")
 local output = require("output")
@@ -11,6 +11,7 @@ local Connection = {}
 -- storageConfiguration class.
 -- @param websocketAddress the websocket address e.g. "1.1.1.1:1111"
 function Connection:new(websocketAddress)
+    print("connecting to: " .. websocketAddress)
     local ws, err = http.websocket(websocketAddress)
     if not ws then
         error ("Failed to connection: " .. err)
@@ -46,5 +47,4 @@ function Connection:listen()
     commandList[command](data)
 end
 
-local connection = Connection:new("1.1.1.1:1111") -- placeholder IP address
-connection:listen()
+return Connection

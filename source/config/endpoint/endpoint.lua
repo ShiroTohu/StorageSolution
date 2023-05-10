@@ -14,6 +14,4 @@ function endpoint()
     return endpoint
 end
 
-endpoint()
-
 return endpoint

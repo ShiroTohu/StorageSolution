@@ -89,6 +89,18 @@ function Storage:main()
     self.storagePeripherals = self:getStoragePeripherals()
 end
 
-storage = Storage:new()
+-- Command functions
+
+function Storage:intput(data)
+    
+end
+
+function Storage:output(data)
+    
+end
+
+function Storage:search(data)
+
+end
 
 return Storage
