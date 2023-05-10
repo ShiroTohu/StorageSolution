@@ -10,8 +10,7 @@ local Connection = {}
 -- Creates a new connection given a websocketAddress string and 
 -- storageConfiguration class.
 -- @param websocketAddress the websocket address e.g. "1.1.1.1:1111"
--- @param storageConfig the storage configuration of the computer
-function Connection:new(websocketAddress, storageConfig)
+function Connection:new(websocketAddress)
     local ws, err = http.websocket(websocketAddress)
     if not ws then
         error ("Failed to connection: " .. err)

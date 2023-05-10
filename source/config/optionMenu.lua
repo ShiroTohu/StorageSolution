@@ -2,6 +2,7 @@ local clear = require("clear")
 
 -- Set the initial cursor position
 local cursor = 1
+-- what is allowed to be seen
 local max = 18
 local min = 1
 
