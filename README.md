@@ -38,4 +38,4 @@ more features under development.
 Server Side functionality not yet introduced.
 
 ## Usage
-<img src="images/configuration.JPG" alt="storage configuration" width="700"/>
+<img src="images/configuration.png" alt="storage configuration" width="700"/>
