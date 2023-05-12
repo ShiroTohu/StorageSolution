@@ -1,5 +1,17 @@
-function inputItems(data)
-    print("input items")
+Input = {}
+
+function Input:new(storageConfig, data)
+    local instance = {
+        storageConfig = storageConfig,
+        data = data
+    }
+    setmetatable(instance, self)
+    self.__index = self
+    return instance
 end
 
-return inputItems
+function Input:inputAll()
+    
+end
+
+return Input

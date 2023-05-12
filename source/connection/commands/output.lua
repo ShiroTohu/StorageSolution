@@ -1,4 +1,4 @@
-function outputItems(data)
+function outputItems(storageConfig, data)
     print("input items")
 end
 

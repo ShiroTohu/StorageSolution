@@ -1,24 +1,22 @@
-const WebSocket = require('ws');
+const socket = require("ws");
+var clients = [];
+const webSocket = new socket.Server({port: 5454, });
 
-const server = new WebSocket.Server({
-    host: '10.25.239.2',
-    port: 5252
-});
+webSocket.on("connection", wsClient => {
+    console.log("something connected");
+    clients.push(wsClient);
 
-const client = [1, 2, 3];
+    wsClient.on("message", messageData=> {
+        console.log("Received message: " + messageData.toString());
 
-server.on('connection', (socket) => {
-    client.push(socket);
-    console.log('A client has connected');
-    socket.send('{"command": "input", "data": {"cobblestone": 64}}');
-    
-    socket.on('message', (message) => {
-        console.log(`Received message: ${message}`);
+        clients.forEach(function(client){
+            client.send(messageData.toString());
+        });
     });
 
-    socket.on('close', () => {
-        console.log("HE DISCONNECTED");
+    wsClient.on("close", () => {
+        console.log("something disconnected");
     })
 });
 
-console.log('WebSocket server is listening on ws://10.25.239.2:5252');
+console.log("started server");

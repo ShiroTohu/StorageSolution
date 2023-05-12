@@ -1,19 +1,19 @@
 package.path = package.path .. ';./config/storage/?.lua'
-package.path = package.path .. ';./config/endpoint/?.lua'
+package.path = package.path .. ';./config/websocketAddress/?.lua'
 package.path = package.path .. ';./config/monitors/?.lua'
 
 local Storage = require("storage")
-local endpoint = require("endpoint")
+local websocketAddress = require("websocketAddress")
 
 local Config = {}
 
 function Config:new()
     local storage = Storage:new()
-    local endpoint = endpoint()
+    local websocketAddress = websocketAddress()
 
     local instance = { 
         storage = storage,
-        endpoint = endpoint
+        websocketAddress = websocketAddress
     }
 
     setmetatable(instance, self)

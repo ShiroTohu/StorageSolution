@@ -1,4 +1,4 @@
-function searchItems(data)
+function searchItems(storageConfig, data)
     print("search items")
 end
 

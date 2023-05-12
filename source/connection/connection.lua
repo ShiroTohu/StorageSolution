@@ -10,7 +10,8 @@ local Connection = {}
 -- Creates a new connection given a websocketAddress string and 
 -- storageConfiguration class.
 -- @param websocketAddress the websocket address e.g. "1.1.1.1:1111"
-function Connection:new(websocketAddress)
+function Connection:new(storageConfig)
+    local websocketAddress = storageConfig.endpoint
     print("connecting to: " .. websocketAddress)
     local ws, err = http.websocket(websocketAddress)
     if not ws then
