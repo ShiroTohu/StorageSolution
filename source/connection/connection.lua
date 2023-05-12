@@ -1,6 +1,6 @@
 package.path = package.path .. ';./connection/commands/?.lua'
 
-local input = require("input")
+local Input = require("Input")
 local output = require("output")
 local search = require("search")
 
@@ -10,8 +10,8 @@ local Connection = {}
 -- Creates a new connection given a websocketAddress string and 
 -- storageConfiguration class.
 -- @param websocketAddress the websocket address e.g. "1.1.1.1:1111"
-function Connection:new(storageConfig)
-    local websocketAddress = storageConfig.endpoint
+function Connection:new(config)
+    local websocketAddress = config.websocketAddress
     print("connecting to: " .. websocketAddress)
     local ws, err = http.websocket(websocketAddress)
     if not ws then
@@ -22,7 +22,8 @@ function Connection:new(storageConfig)
 
     local instance = {
         websocketAddress = websocketAddress,
-        ws = ws
+        ws = ws,
+        config = config
     }
     setmetatable(instance, self)
     self.__index = self -- I have no clue what this does
@@ -35,17 +36,21 @@ end
 -- look like.
 function Connection:listen()
     local serialPacket = self.ws.receive()
+    print("serialPacket: " .. serialPacket)
     local packet = textutils.unserialiseJSON(serialPacket)
-    local command = packet["command"]
-    local data = packet["data"]
+    local command = packet.command
+    local data = packet.data
+
+    print(command)
+    print(data)
 
     commandList = {
-        ["input"] = input,
+        ["input"] = Input,
         ["output"] = output,
         ["search"] = search
     }
 
-    commandList[command](data)
+    Input:new(self.config, data)
 end
 
 return Connection

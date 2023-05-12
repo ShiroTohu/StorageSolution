@@ -5,8 +5,8 @@ local Config = require("config")
 local Connection = require("connection")
 
 function main()
-    local storageConfig = Config:new()
-    local connection = Connection:new(storageConfig)
+    local config = Config:new()
+    local connection = Connection:new(config)
     connection:listen()
 end
 

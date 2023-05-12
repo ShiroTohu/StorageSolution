@@ -9,9 +9,9 @@ local Storage = {}
 
 function Storage:new()
     local instance = { }
-    Storage:main() 
     setmetatable(instance, self)
     self.__index = self
+    self:main() 
     return instance
 end
 
@@ -33,7 +33,8 @@ function Storage:getInventoryPeripherals()
     for key, value in pairs(peripherals) do
         local primaryType, secondaryType = peripheral.getType(value)
         if secondaryType == "inventory" then
-            table.insert(inventoryPeripherals, value)
+            local wrapped_peripheral = peripheral.wrap(value)
+            table.insert(inventoryPeripherals, wrapped_peripheral)
         end
     end
 
@@ -49,19 +50,19 @@ function Storage:getInputPeripheral()
     clear()
 
     local inputChest = optionMenu(self.inventoryPeripherals)
-    return peripheral.wrap(inputChest)
+    return inputChest
 end
 
 function Storage:getOutputPeripheral()
     clear()
-    heading("Select Input Chest", colours.blue)
+    heading("Select Output Chest", colours.blue)
     print("This section dictates the ouput peripheral of the system (this can be the same as the input peripheral)")
     print("Press enter to continue: ")
     input = read()
     clear()
 
     local outputChest = optionMenu(self.inventoryPeripherals)
-    return peripheral.wrap(outputChest)
+    return outputChest
 end
 
 function Storage:getStoragePeripherals()
@@ -87,6 +88,23 @@ function Storage:main()
     self.inputPeripheral = self:getInputPeripheral()
     self.outputPeripheral = self:getOutputPeripheral()
     self.storagePeripherals = self:getStoragePeripherals()
+end
+
+function Storage:isFull(inventoryPeripheral)
+    print("inventory peripheral: " .. peripheral.getName(inventoryPeripheral))
+    if inventoryPeripheral.size() == #inventoryPeripheral.list() then
+        return true
+    else
+        return false
+    end
+end
+
+function Storage:debug()
+    for key, value in ipairs(self.inventoryPeripherals) do
+        print(value)
+    end
+    print("anything there?")
+    read()
 end
 
 return Storage

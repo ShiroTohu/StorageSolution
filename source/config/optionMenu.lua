@@ -13,9 +13,9 @@ function displayOptions(options)
         if (index >= min and index <= max) then
             if index == cursor then
             -- Highlight the current cursor position
-            print(">> " .. option)
+            print(">> " .. peripheral.getName(option))
             else
-            print("  " .. option)
+            print("  " .. peripheral.getName(option))
             end
         end
     end
@@ -50,7 +50,7 @@ function optionMenu(options)
 
         -- Check if the user pressed Enter
         if key == keys.enter then
-            print("option: " .. options[cursor])
+            print("option: " .. peripheral.getName(options[cursor]))
             return options[cursor]
         end
     end

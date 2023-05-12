@@ -10,6 +10,7 @@ local Config = {}
 function Config:new()
     local storage = Storage:new()
     local websocketAddress = websocketAddress()
+    Config:configComplete()
 
     local instance = { 
         storage = storage,
