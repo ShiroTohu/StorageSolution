@@ -1,8 +1,8 @@
 package.path = package.path .. ';./connection/commands/?.lua'
 
-local Input = require("Input")
-local output = require("output")
-local search = require("search")
+local Input = require("input")
+local Output = require("output")
+local Search = require("search")
 
 -- Represents a connection
 local Connection = {}
@@ -40,17 +40,15 @@ function Connection:listen()
     local packet = textutils.unserialiseJSON(serialPacket)
     local command = packet.command
     local data = packet.data
-
-    print(command)
-    print(data)
+    print("command: " .. command)
 
     commandList = {
         ["input"] = Input,
-        ["output"] = output,
-        ["search"] = search
+        ["output"] = Output,
+        ["search"] = Search
     }
 
-    Input:new(self.config, data)
+    commandList[command]:new(self.config, ws, data)
 end
 
 return Connection

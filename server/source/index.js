@@ -5,7 +5,7 @@ const webSocket = new socket.Server({port: 5454});
 webSocket.on("connection", wsClient => {
     console.log("something connected");
     clients.push(wsClient);
-    wsClient.send('{"command": "input", "data": "all"}')
+    wsClient.send('{"command": "output", "data": {"minecraft:cobblestone": 128,"minecraft:dirt": 64}}')
 
     wsClient.on("message", messageData=> {
         console.log("Received message: " + messageData.toString());

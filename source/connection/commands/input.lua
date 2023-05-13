@@ -1,9 +1,11 @@
 Input = {}
 
-function Input:new(config, data)
+function Input:new(config, ws, data)
+    print("ran input")
     local instance = {
         config = config,
         storageConfig = config.storage,
+        ws = ws,
         data = data
     }
     setmetatable(instance, self)
@@ -15,9 +17,9 @@ end
 
 -- writing self and taking the instance is only a quick fix, there is probably a
 -- better way of approaching the problem than what I have come up with. 
-function Input:dataHandler(self, data)
-    print("data: " .. data)
-    if data == "all" then
+function Input:dataHandler(self)
+    print("data: " .. self.data)
+    if self.data == "all" then
         print("data handling rn frfr")
         Input:inputAll(self)
     end
@@ -35,6 +37,8 @@ function Input:inputAll(self)
             end
         end
     end
+
+    self.ws.send("all items sent to the storage system")
 end
 
 return Input

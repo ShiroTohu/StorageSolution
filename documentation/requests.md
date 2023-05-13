@@ -38,4 +38,28 @@ it is just three.
 The Data that can be transmitted is usually a dictionary containing the name of
 the item or block like `minecraft:dirt_block` or if it is a modded item,
 something like `computercraft:computer`, this is then usually specified by the
-number you want to input. 
+number you want to input.
+
+## Example Requests
+```json
+    "command": "input",
+    "data": "all"
+```
+
+```json
+    "command": "output",
+    "data": {
+        "minecraft:cobblestone": 128,
+        "minecraft:dirt": 64
+    }
+```
+
+```json
+    "command": "serach",
+    "data": [
+        "minecraft:cobblestone", 
+        "minecraft:dirt", 
+        "computer", 
+        "dirt"
+    ]
+```

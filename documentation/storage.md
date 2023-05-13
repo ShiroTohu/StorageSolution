@@ -1,7 +1,7 @@
 # The Storage Class
 
 ## Attributes
-inventoryPeripherals
-storagePeripherals
-inputPeripheral
-outputPeripheral
+- inventoryPeripherals
+- storagePeripherals
+- inputPeripheral
+- outputPeripheral
