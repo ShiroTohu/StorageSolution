@@ -1,8 +1,8 @@
 # Minecraft Storage System Interface
 
 ```diff
-Using this system could introduce some security risks on your server, make sure
-you have the necessary precautions in place before running any of the code
+ - Using this system could introduce some security risks on your server, make sure
+ - you have the necessary precautions in place before running any of the code
 ```
 
 This Minecraft Storage System Interface interfaces with websockets in order for

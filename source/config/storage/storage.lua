@@ -15,17 +15,6 @@ function Storage:new()
     return instance
 end
 
-function Storage:storageStartUp()
-    clear()
-    heading("Storage Configuration Wizard", colours.blue)
-    print("This program aims to configure the IOconfiguration of the storage alongside the subnetwork that will be used to configure the storage units")
-    print("")
-    print("If you are unsure about what peripheral leads to where, disconnect and reconnect it to the network in order to get the name of the peripheral")
-    print("Press enter to continue: ")
-    read()
-    clear()
-end
-
 function Storage:getInventoryPeripherals()
     local inventoryPeripherals = {}
 
@@ -67,14 +56,16 @@ end
 
 function Storage:getStoragePeripherals()
     local storagePeripherals = {}
+    local inputPeripheralName = peripheral.getName(self.inputPeripheral)
+    local outputPeripheralName = peripheral.getName(self.outputPeripheral)
 
     local peripherals = peripheral.getNames()
-    for key, value in pairs(peripherals) do
-        if not (value == self.inputPeripheral or value == self.outputPeripheral) then
-            local primaryType, secondaryType = peripheral.getType(value)
+    for key, storagePeripheralName in pairs(peripherals) do
+        if storagePeripheralName ~= inputPeripheralName or storagePeripheralName ~= outputPeripheralName then
+            local primaryType, secondaryType = peripheral.getType(storagePeripheralName)
             if secondaryType == "inventory" then
-                local wrapped_peripheral = peripheral.wrap(value)
-                table.insert(storagePeripherals, wrapped_peripheral)
+                local wrappedPeripheral = peripheral.wrap(storagePeripheralName)
+                table.insert(storagePeripherals, wrappedPeripheral)
             end
         end
     end
@@ -82,12 +73,35 @@ function Storage:getStoragePeripherals()
     return storagePeripherals
 end
 
+-- gets the item and number of that item from the system and stores it in a dictionary
+function Storage:storageMap()
+    storageMap = {}
+
+    clear()
+    for key, storagePeripheral in ipairs(self.storagePeripherals) do
+        heading("Mapping storage items and chests", colours.blue)
+        print("depending on the complexity and the amount of items stored time will vary")
+        print(key .. "/" .. #self.storagePeripherals)
+        if #storagePeripheral.list() > 0 then -- literally impossible for it do go below one, but I don't trust them
+            for slot = 1, storagePeripheral.size() do
+                local item = storagePeripheral.getItemDetail(slot)
+                if item ~= nil then
+                    print(peripheral.getName(storagePeripheral) .. ": " ..item.name)
+                    storageMap[peripheral.getName(storagePeripheral)] = item
+                end
+            end
+        end
+        clear()
+    end
+    clear()
+end
+
 function Storage:main()
-    self:storageStartUp()
     self.inventoryPeripherals = self:getInventoryPeripherals()
     self.inputPeripheral = self:getInputPeripheral()
     self.outputPeripheral = self:getOutputPeripheral()
     self.storagePeripherals = self:getStoragePeripherals()
+    self.storageMap = self:storageMap()
 end
 
 function Storage:isFull(inventoryPeripheral)

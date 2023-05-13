@@ -63,3 +63,8 @@ number you want to input.
         "dirt"
     ]
 ```
+
+```json
+    "command": "serach",
+    "data": []
+```

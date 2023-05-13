@@ -8,6 +8,7 @@ local websocketAddress = require("websocketAddress")
 local Config = {}
 
 function Config:new()
+    Config:configStartUp()
     local storage = Storage:new()
     local websocketAddress = websocketAddress()
     Config:configComplete()
@@ -24,6 +25,17 @@ end
 
 local heading = require("heading")
 local clear = require("clear")
+
+function Config:configStartUp()
+    clear()
+    heading("Storage Configuration Wizard", colours.blue)
+    print("This program aims to configure the IOconfiguration of the storage alongside the subnetwork that will be used to configure the storage units")
+    print("")
+    print("If you are unsure about what peripheral leads to where, disconnect and reconnect it to the network in order to get the name of the peripheral")
+    print("Press enter to continue: ")
+    read()
+    clear()
+end
 
 function Config:configComplete()
     clear()
