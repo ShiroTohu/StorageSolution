@@ -10,7 +10,7 @@ webSocket.on("connection", wsClient => {
     wsClient.on("message", messageData=> {
         console.log("Received message: " + messageData.toString());
 
-        clients.forEach(function(client) {
+        clients.forEach(client => {
             client.send(messageData.toString());
         });
     });

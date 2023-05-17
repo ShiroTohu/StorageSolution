@@ -83,11 +83,13 @@ function Storage:storageMap()
         print("depending on the complexity and the amount of items stored time will vary")
         print(key .. "/" .. #self.storagePeripherals)
         if #storagePeripheral.list() > 0 then -- literally impossible for it do go below one, but I don't trust them
+            storageMap[peripheral.getName(storagePeripheral)] = {}
+            local chestMap = storageMap
             for slot = 1, storagePeripheral.size() do
                 local item = storagePeripheral.getItemDetail(slot)
                 if item ~= nil then
                     print(peripheral.getName(storagePeripheral) .. ": " ..item.name)
-                    storageMap[peripheral.getName(storagePeripheral)] = item
+                    table.insert(storageMap[peripheral.getName(storagePeripheral)], item)
                 end
             end
         end
