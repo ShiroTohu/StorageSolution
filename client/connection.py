@@ -7,7 +7,7 @@ class Connection:
     def __init__(self):
         pass
 
-    def __estaablish_connection(self):
+    def __establish_connection(self):
         with connect("ws://localhost:5454") as websocket:
             websocket.send("Hello world!")
             message = websocket.recv()
@@ -21,3 +21,5 @@ class Config:
     @staticmethod
     def create_connection_config(cls, connection):
         pass
+
+Config.check_connection_config()
