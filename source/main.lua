@@ -7,7 +7,7 @@ local Connection = require("connection")
 function main()
     local config = Config:new()
     local connection = Connection:new(config)
-    connection:listen()
+    connection:sendStorageMap()
 end
 
 main()

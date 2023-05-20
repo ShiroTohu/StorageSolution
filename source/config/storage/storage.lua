@@ -88,7 +88,6 @@ function Storage:storageMap()
             for slot = 1, storagePeripheral.size() do
                 local item = storagePeripheral.getItemDetail(slot)
                 if item ~= nil then
-                    print(peripheral.getName(storagePeripheral) .. ": " ..item.name)
                     table.insert(storageMap[peripheral.getName(storagePeripheral)], item)
                 end
             end
@@ -96,6 +95,8 @@ function Storage:storageMap()
         clear()
     end
     clear()
+
+    return storageMap
 end
 
 function Storage:main()

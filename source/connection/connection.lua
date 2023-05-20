@@ -51,4 +51,17 @@ function Connection:listen()
     commandList[command]:new(self.config, ws, data)
 end
 
+function Connection:sendStorageMap()
+    local storageConfig = self.config.storage
+    local serialisedStorageMap = textutils.serialiseJSON(storageConfig.storageMap)
+    initial_package = {
+        type = "storage", 
+        computerID = os.getComputerID(),
+        storageMap = serialisedStorageMap
+    }
+
+    serialisedPackage = textutils.serialiseJSON(initial_package)
+    self.ws.send(serialisedPackage)
+end
+
 return Connection

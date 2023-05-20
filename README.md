@@ -35,7 +35,7 @@ more features under development.
 2. Install Minecraft Forge or Fabric Loader and make sure you have ComputerCraft: Tweaked installed on either one
 
 ###### Server Side Installation
-Server Side functionality not yet introduced.
+1. run index.js on the server side, it will automatically open up on port 5454
 
 ## Usage
 <img src="images/configuration.png" alt="storage configuration" width="700"/>

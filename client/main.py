@@ -4,6 +4,8 @@ from textual.reactive import reactive
 from textual.widgets import (
     Label, 
     Button,
+    ListView,
+    ListItem,
     Input,
     Footer,
     Header,
@@ -23,10 +25,25 @@ ROWS = [
     ("minecraft:chest_6", 4, "minecraft:redstone", 64),
 ]
 
+CART_ROWS = [("id", "item"), (1, "dirt"), (2, "dirt"), (3, "dirt"), (4, "dirt")]
+
 class Cart(Static):
     """
     stores the items that you want to be outputted in game
     """
+    def compose(self) -> ComposeResult:
+        yield DataTable(id = "shoppingCart")
+
+    def on_mount(self) -> None:
+        table = self.query_one("#shoppingCart")
+        table.cursor_type = "none"
+        table.add_columns(*CART_ROWS[0])
+        table.add_rows(CART_ROWS[1:])
+
+
+class SideBar(Static):
+    def compose(self) -> ComposeResult:
+        yield Cart()
 
 class StorageSearch(Static):
     """
@@ -47,7 +64,6 @@ class StorageDataTable(Static):
     def on_mount(self) -> None:
         table = self.query_one(DataTable)
         table.cursor_type = "row"
-        table.zebra_stripes = True
         table.add_columns(*ROWS[0])
         table.add_rows(ROWS[1:])
 
@@ -55,7 +71,7 @@ class StorageSystemApp(App):
     """ 
     A interface to manage a storage system in a minecraft server.
     """
-    CSS_PATH = "style.css"
+    CSS_PATH = "source/style.css"
     TITLE = "ComptuerCraft Storage System"
     BINDINGS = [
         ("ctrl+r", "reload_data", "Refresh storage system"),
@@ -65,6 +81,8 @@ class StorageSystemApp(App):
     def compose(self) -> ComposeResult:
         yield Header()
         yield Footer()
+        with Container():
+            yield SideBar()
         with ScrollableContainer():
             yield StorageDataTable()
         with Container():
@@ -76,7 +94,7 @@ class StorageSystemApp(App):
         self.dark = not self.dark
 
     def action_reload_data(self) -> None:
-        table = self.query_one(DataTable)
+        table = self.query_one("#storageDataTable")
         table.add_row(*("minecraft:chest_6", 4, "minecraft:redstone", 64))
 
 if __name__ == "__main__":
