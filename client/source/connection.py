@@ -19,33 +19,25 @@ class Connection:
         what "type" the connection is
     """
     # when connecting to the webserver the type is used
-    def __init__(self):
+    def __init__(self, address):
+        self.address
         self.type = "client"
         self.inital_package = {
             "type": self.type
         } 
 
-    def __establish_connection(self):
-        with connect("ws://localhost:5454") as websocket:
-            json_package = json.dumps(self.inital_package)
+    def __send_request(self, package):
+        with connect(f"ws://{self.address}") as websocket:
+            json_package = json.dumps(self.package)
             websocket.send(json_package)
+            response = websocket.recv()
+            return
 
-class Config:
-    @staticmethod
-    def connection_config_exists(cls):
+    def input(self):
         pass
 
-    @staticmethod
-    def test_connection(cls):
+    def output(self):
         pass
 
-    @staticmethod
-    def create_connection_config(cls, connection):
-        pass
-
-    @staticmethod
-    def config_handler(cls, connection):
-        cls.connection_config_exists()
-        cls.test_connection()
-
-Config.config_handler()
+    def getStorageMap(self):
+        self.__establish_connection()

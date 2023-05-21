@@ -1,0 +1,15 @@
+.grid-container {
+    layout: grid;
+}
+
+#storage-data-table-container {
+    row-span: 14;
+}
+
+#storage-search-bar-container {
+    row-span: 1;
+}
+
+#storage-data-table {
+    max-width: 100%;
+}

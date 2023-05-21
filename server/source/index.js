@@ -13,9 +13,7 @@ class BounceServer {
             // wsClient.send('{"command": "output", "data": {"minecraft:cobblestone": 128,"minecraft:dirt": 64}}');
         
             wsClient.on("message", messageData=> {
-                let jsonMessage = JSON.parse(messageData)
-                this.storage[jsonMessage["computerID"]] = jsonMessage["storageMap"]; 
-                console.log(`messageData: ${JSON.stringify(jsonMessage, null, 2)}`);
+                this.messageHandler(wsClient, messageData)
             });
         
             wsClient.on("close", () => {
@@ -32,54 +30,23 @@ class BounceServer {
         console.log("started server");
     }
 
-    messageHandler(messageData) {
+    messageHandler(wsClinet, messageData) {
         let request = JSON.parse(messageData);
         let requestMap = {
             "client": this.clientRequest,
             "storage": this.storageRequest
         }
 
-        typeMap[request["type"]](request);
+        requestMap[request["type"]](wsClient, request);
     }
 
-    clientRequest(request) {
-        return;
+    clientRequest(wsClient, request) {
+        wsClient.send(JSON.stringify(this.storage));
     }
 
-    storageRequest(request) {
-        this.storage[jsonMessage["computerID"]] = jsonMessage["storageMap"]; 
+    storageRequest(wsClient, request) {
+        this.storage[request["computerID"]] = request["storageMap"]; 
     }
-    // // the following two methods are a clear violation of DRY
-    // clientToStorage() {
-    //     console.log(this.storageSystems.length);
-    //     if (this.storageSystems.length == 0) {
-    //         return;
-    //     } else {
-    //         this.storageSystems.forEach((client) => {
-    //             client.send("response");
-    //         });
-    //     }
-    // }
-
-    // storageToClient() {
-    //     console.log(this.storageSystems.length);
-    //     if (this.storageSystems.length == 0) {
-    //         return;
-    //     } else {
-    //         this.clients.forEach((client) => {
-    //             client.send("response");
-    //         });
-    //     }
-    // }
-
-    // bounce(messageData) {
-    //     let message = JSON.parse(messageData);
-    //     let bounceMap = {
-    //         "client": this.clientToStorage,
-    //         "storage": this.storageToClient,
-    //     };
-    //     bounceMap[message["type"]]();
-    // }
 }
 
 let bounceServer = new BounceServer(5454);
