@@ -4,6 +4,8 @@ from textual.widgets import (
     DataTable
 )
 
+from source.storage import StorageMap
+
 ROWS = [
     ("chest", "slot", "item", "quantity"),
     ("minecraft:chest_0", 1, "minecraft:dirt", 64),
@@ -20,11 +22,9 @@ class StorageDataTable(Static):
     that allows you to search through the storage system
     """
 
+    # def __init__(self, connection):
+    #     super().__init__(self)
+        # self.storageMap = StorageMap(connection)
+
     def compose(self) -> ComposeResult:
         yield DataTable(id = "storageDataTable")
-
-    def on_mount(self) -> None:
-        table = self.query_one(DataTable)
-        table.cursor_type = "row"
-        table.add_columns(*ROWS[0])
-        table.add_rows(ROWS[1:])

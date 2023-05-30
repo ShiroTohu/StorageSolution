@@ -1,4 +1,4 @@
-from source.appllication import StorageSystemApp
+from source.application import StorageSystemApp
 import argparse
 
 description = """
@@ -11,5 +11,6 @@ if __name__ == "__main__":
     parser.add_argument('websocketAddress', help = "the ip and port of the server you want to connect to")
     args = parser.parse_args()
 
+    print(args.websocketAddress)
     app = StorageSystemApp(args.websocketAddress)
     app.run()

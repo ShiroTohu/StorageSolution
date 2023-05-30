@@ -7,6 +7,7 @@ from textual.widgets import(
 )
 
 from source.widgets import *
+from source.connection import Connection
 
 class StorageSystemApp(App):
     """ 
@@ -20,7 +21,10 @@ class StorageSystemApp(App):
     ]
 
     def __init__(self, websocketAddress):
+        super().__init__()
         self.websocketAddress = websocketAddress
+        self.connection = Connection(websocketAddress)
+        self.storageMap = StorageMap(self.connection)
 
     def compose(self) -> ComposeResult:
         yield Header()
@@ -30,6 +34,12 @@ class StorageSystemApp(App):
                 yield StorageDataTable(id = "storage-data-table")
             with Container(classes = "storage-search-bar-container"):
                 yield StorageSearchBar()
+
+    def on_mount(self) -> None:
+        table = self.query_one("#storageDataTable")
+        table.cursor_type = "row"
+        table.add_columns(*self.storageMap.headers[0])
+        table.add_rows(self.storageMap.rows[1:])
 
     def action_toggle_dark(self) -> None:
         """An action to toggle dark mode."""

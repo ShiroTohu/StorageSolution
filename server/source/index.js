@@ -2,13 +2,15 @@ const socket = require("ws");
 
 class BounceServer {
     constructor(port) {
-        this.storage = {};
+        this.storage = {"test": "testing"};
         this.port = port;
         this.webSocket = new socket.Server({port: this.port});
+        this.storageRequest = this.storageRequest.bind(this);
+        this.clientRequest = this.clientRequest.bind(this);
     }
 
     main() {
-        webSocket.on("connection", wsClient => {
+        this.webSocket.on("connection", wsClient => {
             console.log("something connected");
             // wsClient.send('{"command": "output", "data": {"minecraft:cobblestone": 128,"minecraft:dirt": 64}}');
         
@@ -30,7 +32,8 @@ class BounceServer {
         console.log("started server");
     }
 
-    messageHandler(wsClinet, messageData) {
+    messageHandler(wsClient, messageData) {
+        console.log(`messageData : ${messageData}`);
         let request = JSON.parse(messageData);
         let requestMap = {
             "client": this.clientRequest,
@@ -40,12 +43,16 @@ class BounceServer {
         requestMap[request["type"]](wsClient, request);
     }
 
+    // refactor this later
     clientRequest(wsClient, request) {
+        console.log(JSON.stringify(this.storage));
         wsClient.send(JSON.stringify(this.storage));
+        console.log("sent storage");
     }
 
     storageRequest(wsClient, request) {
-        this.storage[request["computerID"]] = request["storageMap"]; 
+        this.storage[request["computerID"]] = request["storageMap"];
+        console.log("sent storageMap to storage");
     }
 }
 
